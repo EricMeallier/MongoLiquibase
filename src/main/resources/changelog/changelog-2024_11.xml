@@ -1,0 +1,61 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd
+http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.8.xsd">
+
+    <changeSet id="2024.11.1" author="Eric">
+        <ext:createCollection collectionName="customer">
+            <ext:options>
+                {
+                    validator: {
+                        $jsonSchema: {
+                            bsonType: "object",
+                            required: ["_id","firstName", "lastName","_class"],
+                            properties: {
+                                firstName: {
+                                    bsonType: "string",
+                                    description: "The First Name"
+                                },
+                                lastName: {
+                                    bsonType: "string",
+                                    description: "The Last Name"
+                                },
+                                _id: {
+                                    bsonType: "objectId",
+                                    description: "ID"
+                                },
+                                _class: {
+                                    bsonType: "string",
+                                    description: "CLASS"
+                                }
+                        }
+                    }
+                },
+                validationAction: "warn",
+                validationLevel: "strict"
+                }
+            </ext:options>
+        </ext:createCollection>
+
+        <ext:insertMany collectionName="customer">
+            <ext:documents>
+                [
+                {
+                _id: {
+                "$oid": "000000000000000000000001"
+                },
+                "firstName": "Eric",
+                "lastName": "Meallier",
+                "_class": "fr.meallier.mongoLiquibase.Customer"
+                }
+                ]
+            </ext:documents>
+        </ext:insertMany>
+    </changeSet>
+
+</databaseChangeLog>
